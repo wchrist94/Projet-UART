@@ -141,6 +141,45 @@ BEGIN
      -- caractère se fait lorsqu'on émet un premier caractère
      -- et ceci quelque soit l'étape d'émission
 
+      wait for 5*clk_period;
+
+      if not (regE='1' and bufE='1') then
+       wait until regE='1' and bufE='1';
+     end if;
+
+      -- si oui, on charge la donnée
+     wait for clk_period;
+     -- émission du caractère 0x55
+     data <= "01010101";
+     ld <= '1';
+
+      -- on attend de voir que l'ordre d'émission
+     -- a été bien pris en compte avant de rabaisser
+     -- le signal ld
+     if not (regE='1' and bufE='0') then
+       wait until regE='1' and bufE='0';
+     end if;
+     wait for clk_period;
+     ld <= '0';
+
+     if not (bufE='1') then
+       wait until bufE='1';
+     end if;
+
+      wait for clk_period;
+     data <= "10101010";
+     ld <= '1';
+
+       -- on attend de voir que l'ordre d'émission
+     -- a été bien pris en compte avant de rabaisser
+     -- le signal ld
+     if not (bufE='0') then
+       wait until bufE='0';
+     end if;
+     wait for clk_period;
+     ld <= '0';
+
+
      wait;
    end process;
 
