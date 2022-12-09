@@ -110,6 +110,9 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
+	
+	--------------------- Premier test sans double load -------------------
+	
      -- maintien du reset durant 100 ns.
      wait for 100 ns;	
      reset <= '1';
@@ -136,16 +139,15 @@ BEGIN
      wait for clk_period;
      ld <= '0';
 
-     -- compléter avec des tests qui montrent que la prise
-     -- en compte de la demande d'émission d'un second
-     -- caractère se fait lorsqu'on émet un premier caractère
-     -- et ceci quelque soit l'étape d'émission
+----------------------- Deuxième test avec double load ---------------
 
-      wait for 5*clk_period;
 
+		-- l'émetteur est dispo ?
       if not (regE='1' and bufE='1') then
        wait until regE='1' and bufE='1';
      end if;
+	  
+	  wait for 500 ns;
 
       -- si oui, on charge la donnée
      wait for clk_period;
@@ -162,9 +164,13 @@ BEGIN
      wait for clk_period;
      ld <= '0';
 
+
+		-- Envoi de la seconde recquête
      if not (bufE='1') then
        wait until bufE='1';
      end if;
+	  
+	  wait for 200 ns;
 
       wait for clk_period;
      data <= "10101010";
@@ -178,7 +184,6 @@ BEGIN
      end if;
      wait for clk_period;
      ld <= '0';
-
 
      wait;
    end process;

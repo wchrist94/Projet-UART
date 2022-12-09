@@ -95,17 +95,15 @@ begin
 							etat <= envoi_xor; 			-- Passage dans l'état d'envoi du bit de parité
 							cpt := 8;					-- Réinitialisation du compteur
 						end if;
-
-						
-
-						-- Réception éventuelle d'une nouvelle demande d'emission avec le tampon vide
-						if (ld = '1' and double = '1') then
-						
-							BufferT <= data;			-- Chargement de la nouvelle data dans le tampon
-							bufE <= '0';				-- Buffer occupé
-							double <= '0';				-- Double load impossible
-						end if;
 					
+					end if;
+					
+					-- Réception éventuelle d'une nouvelle demande d'emission avec le tampon vide
+					if (ld = '1' and double = '1') then
+						
+						BufferT <= data;			-- Chargement de la nouvelle data dans le tampon
+						bufE <= '0';				-- Buffer occupé
+						double <= '0';				-- Double load impossible
 					end if;
 
 				when envoi_xor =>
@@ -138,7 +136,7 @@ begin
 
 					if (enable = '1') then
 
-						txd <= '1';						-- Envoi du bit de fin	
+						txd <= '1';							-- Envoi du bit de fin	
 						
 						if (double = '0') then
 
@@ -146,7 +144,7 @@ begin
 
 						else
 
-							etat <= attente;			-- Retour dans l'état d'attente sinon
+							etat <= attente;				-- Retour dans l'état d'attente sinon
 
 						end if;
 					end if;
