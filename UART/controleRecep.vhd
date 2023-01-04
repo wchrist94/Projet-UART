@@ -27,11 +27,12 @@ begin
         variable data_aux : std_logic_vector (7 downto 0);
         variable bit_courant : natural;
         variable bit_p : std_logic;
+        variable IndicateurOerr : std_logic;
 
     begin
 
         if (reset = '0') then
-
+            IndicateurOerr := '0';
             Ferr <= '0';
             OErr <= '0';
             DRdy <= '0';
@@ -47,11 +48,13 @@ begin
 
                 when debut =>
 
+                    IndicateurOerr := '0';
+                    Ferr <= '0';
+                    OErr <= '0';
+                    DRdy <= '0';
+
                     if (tmpclk = '1') then
 
-						Ferr <= '0';
-                        OErr <= '0';
-                        DRdy <= '0';
                         data_aux := (others => '0');
                         bit_p := '0';
                         data <= (others => '0');
@@ -96,10 +99,13 @@ begin
                         if (tmprxd /= bit_p) then
 
                             Ferr <= '1';
+                            etat <= debut;
+                        else
+                            etat <= verification_fin;
 
                         end if;
 
-                        etat <= verification_fin;
+                        
 
                     end if;
 
@@ -127,10 +133,13 @@ begin
 
                     DRdy <= '0';
 
-                    if (read = '0') then
+                    if (read = '0' and IndicateurOerr = '0') then
 
                         OErr <= '1';
-
+                        IndicateurOerr := '1';
+                    elsif (read = '0' and IndicateurOerr = '1') then
+                        OErr <= '0';
+                        etat <= debut;
                     else
 
                         etat <= debut;
