@@ -83,15 +83,11 @@ BEGIN
       -- hold reset state for 100 ns.
       wait for 100 ns;	
 		reset <= '1';
-				
+		
 		wait for clk_period*8;
-		rxd <= '0';
+		rxd <= '0'; -- Bit de start
 		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
+		rxd <= '0'; -- Données 0101 0101
 		wait for clk_period*16;
 		rxd <= '1';
 		wait for clk_period*16;
@@ -106,6 +102,10 @@ BEGIN
 		rxd <= '0';
 		wait for clk_period*16;
 		rxd <= '1';
+		wait for clk_period*16;
+		rxd <= '0'; -- Bit de Parite
+		wait for clk_period*16;
+		rxd <= '1'; -- Bit de Stop
 		
 		wait until DRdy = '1';
       rd <= '1';
@@ -124,13 +124,9 @@ BEGIN
 		reset <= '1';
 				
 		wait for clk_period*8;
-		rxd <= '0';
+		rxd <= '0'; -- Bit de start
 		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
+		rxd <= '0'; -- Données 0101 0101
 		wait for clk_period*16;
 		rxd <= '1';
 		wait for clk_period*16;
@@ -142,9 +138,13 @@ BEGIN
 		wait for clk_period*16;
 		rxd <= '1';
 		wait for clk_period*16;
-		rxd <= '1';
+		rxd <= '0';
 		wait for clk_period*16;
 		rxd <= '1';
+		wait for clk_period*16;
+		rxd <= '1'; -- Bit de Parite
+		wait for clk_period*16;
+		rxd <= '1';	-- Bit de Stop
 
       wait for 500 ns;
       -- Test transmission bit de stop erroné --
@@ -156,13 +156,9 @@ BEGIN
 		reset <= '1';
 				
 		wait for clk_period*8;
-		rxd <= '0';
+		rxd <= '0'; -- Bit de start
 		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
+		rxd <= '0'; -- Données 0101 0101
 		wait for clk_period*16;
 		rxd <= '1';
 		wait for clk_period*16;
@@ -176,7 +172,11 @@ BEGIN
 		wait for clk_period*16;
 		rxd <= '0';
 		wait for clk_period*16;
-		rxd <= '0';
+		rxd <= '1';
+		wait for clk_period*16;
+		rxd <= '0'; -- Bit de Parite
+		wait for clk_period*16;
+		rxd <= '0'; -- Bit de Stop
 
       wait for 500 ns;
       -- Test transmission read absent --
@@ -188,13 +188,9 @@ BEGIN
 		reset <= '1';
 				
 		wait for clk_period*8;
-		rxd <= '0';
+		rxd <= '0'; -- Bit de start
 		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
+		rxd <= '0'; -- Données 0101 0101
 		wait for clk_period*16;
 		rxd <= '1';
 		wait for clk_period*16;
@@ -209,6 +205,10 @@ BEGIN
 		rxd <= '0';
 		wait for clk_period*16;
 		rxd <= '1';
+		wait for clk_period*16;
+		rxd <= '0'; -- Bit de Parite
+		wait for clk_period*16;
+		rxd <= '1'; -- Bit de Stop
 
 
       wait;
