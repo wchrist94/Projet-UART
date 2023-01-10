@@ -17,8 +17,10 @@ entity UART_FPGA_N4 is
     -- les anodes pour sélectionner les afficheurs 7 segments à utiliser
     an : out std_logic_vector (7 downto 0);
     -- valeur affichée sur les 7 segments (point décimal compris, segment 7)
-    ssg : out std_logic_vector (7 downto 0)
+    ssg : out std_logic_vector (7 downto 0);
     -- ligne série (à rajouter)
+    TxD : out std_logic;
+    RxD : in std_logic
   );
 end UART_FPGA_N4;
 

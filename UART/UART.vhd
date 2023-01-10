@@ -29,17 +29,16 @@ architecture UARTunit_arch of UARTunit is
       ctrlReg          : out std_logic_vector(7 downto 0)
 	);
 	END COMPONENT;
-  
-  COMPONENT echoUnit Port(
-      clk, reset : in  std_logic;
-      cs, rd, wr : out  std_logic;
-      IntR       : in std_logic;         -- interruption de réception
-      IntT       : in std_logic;         -- interruption d'émission
-      addr       : out  std_logic_vector(1 downto 0);
-      data_in    : in  std_logic_vector(7 downto 0);
-      data_out   : out std_logic_vector(7 downto 0)
+
+	COMPONENT RxUnit Port (
+      clk, reset       : in std_logic;
+      enable           : in std_logic;
+      read             : in std_logic;
+      rxd              : in std_logic;
+      data             : out std_logic_vector(7 downto 0);
+      Ferr, OErr, DRdy : out std_logic
 	);
-	END COMPONENT;
+  	END COMPONENT;
 	
 	COMPONENT TxUnit Port(
 		 clk, reset : in std_logic;
@@ -64,9 +63,8 @@ architecture UARTunit_arch of UARTunit is
 
   -- a completer par les signaux internes manquants
   
-  signal enableRX1, enableTX1 : std_logic;
-  signal bufE1, regE1, DRdy1, FErr1, OErr1 : std_logic;
-  signal intT1, intR1 : std_logic;
+  signal enableRX, enableTX : std_logic;
+  signal bufE, regE, DRdy, FErr, OErr : std_logic;
 
   begin  -- UARTunit_arch
 
@@ -81,47 +79,46 @@ architecture UARTunit_arch of UARTunit is
 	 Inst_clkUnit : clkUnit PORT MAP(
 		clk => clk,
 		reset => reset,
-		enableTX => enableTX1,
-		enableRX => enableRX1
+		enableTX => enableTX,
+		enableRX => enableRX
 	);
 	
 	Inst_TxUnit : TxUnit PORT MAP(
 		clk => clk,
 		reset => reset,
-		enable => enableTX1,
+		enable => enableTX,
 		ld => ecriture,
 		txd => TxD,
-		regE => regE1,
-		bufE => bufE1,
+		regE => regE,
+		bufE => bufE,
 		data => data_in
-	);
-	
-	Inst_echoUnit : echoUnit PORT MAP(
-		clk => clk,
-		reset => reset,
-		cs => cs,
-		rd => rd,
-		wr => wr,
-		intT => intT1,
-		intR => intR1,
-		addr => addr,
-		data_in => data_in,
-		data_out => data_out
 	);
 	
 	Inst_ctrlUnit : ctrlUnit PORT MAP(
 		clk => clk,
-		reset => resetn,
+		reset => reset,
 		rd => rd,
 		cs => cs,
-		DRdy => DRdy1,
-		FErr => FErr1,
-		OErr => OErr1,
-		bufE => bufE1,
-		regE => regE1,
-		intR => intT1,
-		intT => intR1,
+		DRdy => DRdy,
+		FErr => FErr,
+		OErr => OErr,
+		bufE => bufE,
+		regE => regE,
+		intR => intR,
+		intT => intT,
 		ctrlReg => registre_controle
+	);
+
+	Inst_RxUnit : RxUnit PORT MAP(
+		clk    => clk,
+		reset  => reset,
+		enable => enableRX,
+		read   => lecture,
+		rxd    => RxD,
+		data   => donnees_recues,
+		Ferr   => Ferr,
+		OErr   => OErr,
+		DRdy   => DRdy
 	);
 
   end UARTunit_arch;
