@@ -5,10 +5,10 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY test_RxUnit IS
-END test_RxUnit;
+ENTITY test_RxUnit_read_absent IS
+END test_RxUnit_read_absent;
  
-ARCHITECTURE behavior OF test_RxUnit IS 
+ARCHITECTURE behavior OF test_RxUnit_read_absent IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
@@ -74,111 +74,6 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-
-      -- Test transmission normal --
-
-		reset <= '0';
-		rxd <= '1';
-
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-		reset <= '1';
-		
-		wait for clk_period*8;
-		rxd <= '0'; -- Bit de start
-		wait for clk_period*16;
-		rxd <= '0'; -- Données 0101 0101
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0'; -- Bit de Parite
-		wait for clk_period*16;
-		rxd <= '1'; -- Bit de Stop
-		
-		wait until DRdy = '1';
-      rd <= '1';
-		wait until DRdy = '0';
-
-		wait for clk_period*2;
-		rd <= '0';
-		
-		wait for 500 ns;
-      -- Test transmission bit de parité erroné --
-     	reset <= '0';
-		rxd <= '1';
-      
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-		reset <= '1';
-				
-		wait for clk_period*8;
-		rxd <= '0'; -- Bit de start
-		wait for clk_period*16;
-		rxd <= '0'; -- Données 0101 0101
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '1'; -- Bit de Parite
-		wait for clk_period*16;
-		rxd <= '1';	-- Bit de Stop
-
-      wait for 500 ns;
-      -- Test transmission bit de stop erroné --
-     	reset <= '0';
-		rxd <= '1';
-      
-      -- hold reset state for 100 ns.
-      wait for 100 ns;	
-		reset <= '1';
-				
-		wait for clk_period*8;
-		rxd <= '0'; -- Bit de start
-		wait for clk_period*16;
-		rxd <= '0'; -- Données 0101 0101
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0';
-		wait for clk_period*16;
-		rxd <= '1';
-		wait for clk_period*16;
-		rxd <= '0'; -- Bit de Parite
-		wait for clk_period*16;
-		rxd <= '0'; -- Bit de Stop
-
-      wait for 500 ns;
       -- Test transmission read absent --
      	reset <= '0';
 		rxd <= '1';

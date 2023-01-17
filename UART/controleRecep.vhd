@@ -57,6 +57,7 @@ begin
 
                         data_aux := (others => '0');
                         bit_p := '0';
+                        bit_courant := 7;
                         data <= (others => '0');
                         etat <= reception;
 
@@ -120,11 +121,8 @@ begin
                             etat <= debut;
 
                         else
-
                             DRdy <= '1';
-                            data <= data_aux;
                             etat <= fin;
-
                         end if;
                     
                     end if;
@@ -134,16 +132,14 @@ begin
                     DRdy <= '0';
 
                     if (read = '0' and IndicateurOerr = '0') then
-
                         OErr <= '1';
                         IndicateurOerr := '1';
                     elsif (read = '0' and IndicateurOerr = '1') then
                         OErr <= '0';
                         etat <= debut;
                     else
-
                         etat <= debut;
-
+                        data <= data_aux;
                     end if;
 
                 end case;
