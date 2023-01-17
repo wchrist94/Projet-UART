@@ -17,7 +17,7 @@ end controleRecep;
 
 architecture behavorial of controleRecep is
 
-    type t_etat is (debut, reception,reception_bis, verification_bit_p, verification_fin, fin);
+    type t_etat is (debut, reception,reception_bis, verification_bit_p, verification_fin);
     signal etat : t_etat;
 
 begin
@@ -122,26 +122,19 @@ begin
 
                         else
                             DRdy <= '1';
-                            etat <= fin;
+                            if (read = '0' and IndicateurOerr = '0') then
+                                OErr <= '1';
+                                IndicateurOerr := '1';
+                            elsif (read = '0' and IndicateurOerr = '1') then
+                                OErr <= '0';
+                                etat <= debut;
+                            else
+                                data <= data_aux;
+                                etat <= debut;
+                            end if;
                         end if;
                     
                     end if;
-
-                when fin =>
-
-                    DRdy <= '0';
-
-                    if (read = '0' and IndicateurOerr = '0') then
-                        OErr <= '1';
-                        IndicateurOerr := '1';
-                    elsif (read = '0' and IndicateurOerr = '1') then
-                        OErr <= '0';
-                        etat <= debut;
-                    else
-                        etat <= debut;
-                        data <= data_aux;
-                    end if;
-
                 end case;
             
             end if;

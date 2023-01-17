@@ -68,6 +68,6 @@ NET "btnL"				LOC = "T16"	| IOSTANDARD = "LVCMOS33";		#Bank = CONFIG, Pin name =
 NET "btnR"				LOC = "R10"	| IOSTANDARD = "LVCMOS33";		#Bank = 14, Pin name = IO_25_14,					Sch name = BTNR
 NET "btnD"				LOC = "V10"	| IOSTANDARD = "LVCMOS33";		#Bank = 14, Pin name = IO_L21P_T3_DQS_14,				Sch name = BTND
 
-# Sortie
+## Sortie
 NET "Txd"   LOC = "D4" | IOSTANDARD = "LVCMOS33";
 NET "Rxd"   LOC = "C4" | IOSTANDARD = "LVCMOS33";
