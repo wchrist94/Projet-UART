@@ -105,6 +105,8 @@ BEGIN
 		rxd <= '0'; -- Bit de Parite
 		wait for clk_period*16;
 		rxd <= '0'; -- Bit de Stop
+		wait for clk_period*16;
+		rxd <= '1';
 
       wait;
    end process;

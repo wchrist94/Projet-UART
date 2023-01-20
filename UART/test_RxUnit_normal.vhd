@@ -209,7 +209,12 @@ BEGIN
 		rxd <= '0'; -- Bit de Parite
 		wait for clk_period*16;
 		rxd <= '1'; -- Bit de Stop
-
+		wait until DRdy = '1';
+        rd <= '1';
+          wait until DRdy = '0';
+  
+          wait for clk_period*2;
+          rd <= '0';
 
       wait;
    end process;
