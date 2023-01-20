@@ -1,7 +1,5 @@
 
-SRC = compteur16.vhd\
-      controleRecep.vhd\
-      RxUnit.vhd\
+SRC = RxUnit.vhd\
       test_RxUnit_bit_parite_faux.vhd\
       test_RxUnit_bit_stop_faux.vhd\
       test_RxUnit_double_emission.vhd\
